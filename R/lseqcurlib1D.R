@@ -2,9 +2,10 @@ lseqcurlib1D <-function(
 ### main function to calculate electrostatic profile of DNA
 s, ##<< DNA sequence
 bound, ##<< define a fragment of interest
-width, ##<< smoothing window width
+width=1, ##<< smoothing window width
 ref, ##<< reference position 
-name ##<< name of the library
+filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
+#,name ##<< name of the library
 ){
 	library(seqinr)
 	width<-floor(width/2)
@@ -12,7 +13,8 @@ name ##<< name of the library
 	l<-getLength(s)
 	nseq<-s2n(s2c(s), levels=c("a", "t", "g", "c"), base4=FALSE)
 
-	load('rise_twist.Rdata')
+#	load('rise_twist.Rdata')
+#	data(rise_twist,qqs,w)
 	data<-rise_twist
 
 	di<-array(0, dim=c(16, l-1))
@@ -43,8 +45,8 @@ name ##<< name of the library
 	rspar<-risem-risef
 	risef<-floor(risem-min(risem))+1
 	risec<-ceiling(risem-min(risem))+1
-	libname<-paste(name, '.Rdata', sep='')
-	load(libname)
+#	libname<-paste(name, '.Rdata', sep='')
+#	data(libname)
 	zlib<-dim(qqs)[2]
 	lz<-max(risec)-min(risec)+zlib
 	pot<-array(0, dim=c(1,lz))
@@ -63,8 +65,12 @@ name ##<< name of the library
 	mpot<-mpot[(risef[bound[1]]-8+zlib/2):(risef[bound[2]]+8+zlib/2)]
 	risem<-risem[bound[1]:bound[2]]-risem[ref]
 	i1<-risef[bound[1]:bound[2]]-risef[bound[1]]+9
+  
+  if(!is.na(filename)&!nchar(gsub('^ +','',gsub(' +$','',filename)))>0){
+    filename<-gsub(' +','_',gsub('^ +','',gsub(' +$','',filename)))
+    save(mpot, risef, i1, file=paste(filename,'.lseqcurlib_data.Rdata',sep=''))
+  }
 
-	save(mpot, risef, i1, file='lseqcurlib_data.Rdata')
 	elstatlist<-list(mpot=mpot, risef=risef, i1=i1)
 	return (elstatlist)
 ### list containing a few electrostatic data: pot, mpot, risef, i1

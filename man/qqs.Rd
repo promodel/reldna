@@ -7,7 +7,7 @@ Template profile of electrostatic potential around individual base pare.
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
-Three-dimensional array of potential values at specific points on the cylinder around base pair. The raidus of the cylinder is 15 $\AA$ and the length is 210 $\AA$, so it cover the range from -105 to +104 $\AA$ on Z axis.
+Three-dimensional array of potential values at specific points on the cylinder around base pair. The raidus of the cylinder is 15 Angstrom (A) and the length is 210 A, so it cover the range from -105 to +104 A on Z axis.
 }
 \usage{data(qqs)}
 \format{
