@@ -33,5 +33,5 @@ show=TRUE, ##<< logical, to show plot or not?
 	if (drawlines==FALSE & numlabels==TRUE){ stop('Cannot put numlabels without drawlines=TRUE') }
    }
 	if (show==TRUE) { vp() }
-	if (save==TRUE) {filesave(vp(), filetype, filename)}
+	if (save==TRUE) {filesave(imagefun=vp(), filetype=filetype, filename=filename)}
 }

@@ -52,24 +52,13 @@ lseqspline1D<-function(
 sseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for short sequences
   s, ##<< DNA sequence
-  bound=NA, ##<< define a fragment of interest. NA enforce the use 'zout' value. Not NA value will override 'zout' value.
-  width=1, ##<< smoothing window width
   ref, ##<< reference position 
-  zout=-540:179 ##<< exact coordinates in which values of the potential will be calculated. Not NA 'bound' value will make 'zout' overwritten.
+  zout=-540:179 ##<< exact coordinates in which values of the potential will be calculated.
   #,filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
   #,name ##<< name of the library
 ){
   geom<-dnaGeom(s)
   risem<-geom$risem-geom$risem[ref]
-  if(all(!is.na(bound))&length(bound)>0){
-    if(length(bound>2)){
-      warning(paste('Length of "bound" is',length(bound),'when 2 is expected. First two values of bound are used.'))
-      bound<-bound[1:2]
-    }else if(length(bound==1)){
-      bound<-c(bound,geom$l-bound)
-    }
-    zout<-(risem[bound[1]]-9):(risem[bound[2]]-9)
-  }
   zlib<-dim(qqs)[2]
   lout<-length(zout)
   exZ<- (-lout-zlib/2):(lout+zlib/2-1)

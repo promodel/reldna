@@ -2,6 +2,9 @@ VIP <-function#Fuction to calculate VIP-values for variables
 ##references<< MixOmics
 (resPLS  ##<< mvr-object
 ){
+  if(!require(pls)){
+    stop('Required library "pls" is missing')
+  }
     W<-loadings(resPLS)
     H<-resPLS$ncomp
     q<-ncol(resPLS$model[[names(resPLS$model)[1]]])
