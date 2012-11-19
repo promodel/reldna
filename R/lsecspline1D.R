@@ -79,3 +79,21 @@ sseqspline1D<-function(
   }
   return(pot)
 }
+
+sseqspline1D.BP<-function(  
+### spline function to calulate the profile of electrostatics for short sequences in base pairs
+  s, ##<< DNA sequence
+  ref, ##<< reference position 
+  zout=-540:179 ##<< exact coordinates in which values of the potential will be calculated.
+  #,filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
+  #,name ##<< name of the library
+){
+  geom<-dnaGeom(s)
+  risem<-geom$risem-geom$risem[ref]
+  pot<-sseqspline1D(s,ref,zout)
+  ind<-which(risem>=min(zout)&risem<=max(zout))
+  bp<-ind-ref
+  pspline=splinefun(zout,pot,method='natural')
+  potbp<-pspline(risem[ind])
+  return(cbind(bp,potbp))
+}
