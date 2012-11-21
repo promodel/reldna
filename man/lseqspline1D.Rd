@@ -2,7 +2,6 @@
 \alias{lseqspline1D}
 \title{lseqspline1D}
 \description{spline function to calulate the profile of electrostatics for long sequences
-!!!!! DO NOT USE. FUNCTION IS UNDER DEVELOPMENT !!!!!!!
 =======================================================}
 \usage{lseqspline1D(s, bound, width = 1, ref)}
 \arguments{

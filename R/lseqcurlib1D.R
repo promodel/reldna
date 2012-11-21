@@ -1,37 +1,3 @@
-dnaGeom<-function(s){
-  if(!require(seqinr)){
-    stop('Required library "seqinr" is not installed.')
-  }
-  s<-tolower(gsub(' ', '', s))
-  l<-getLength(s)
-  nseq<-s2n(s2c(s), levels=c("a", "t", "g", "c"), base4=FALSE)
-  
-  #	load('rise_twist.Rdata')
-  #	data(rise_twist,qqs,w)
-  data<-rise_twist
-  
-  di<-array(0, dim=c(16, l-1))
-  for (k in 1:16) {
-    i<-gregexpr(data$dilet[k], s, ignore.case=TRUE)
-    i<-as.vector(i[[1]])
-    di[k,i]<-array(1, dim=c(1, length(i)))
-  }
-  for (m in 1:(l-1)){ 
-    if(sum(di[, m])!=1){ 
-      di[, m]<-di[,m-1]
-    }}
-  
-  geom<-array(0, dim=c(1,l))
-  geom[1, 2:l]<-data$rise%*%di  
-  
-  risem<-cumsum(geom)
-  
-  rm(data, geom, di)
-  geom<-list(risem=risem,nseq=nseq,l=l)
-  class(geom)<-'DNAgeom'
-  return(geom)
-}
-
 lseqcurlib1D <-function(
 ### main function to calculate electrostatic profile of DNA
 s, ##<< DNA sequence

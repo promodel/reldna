@@ -1,6 +1,5 @@
 lseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for long sequences
-  ### !!!!! DO NOT USE. FUNCTION IS UNDER DEVELOPMENT !!!!!!!
   ### =======================================================
   s, ##<< DNA sequence
   bound, ##<< define a fragment of interest
@@ -15,35 +14,35 @@ lseqspline1D<-function(
     if(length(bound)>2){
       warning(paste('Length of "bound" is',length(bound),'when 2 is expected. First two values of bound are used.'))
       bound<-bound[1:2]
-    }else if(length(bound==1)){
+    }else if(length(bound)==1){
       bound<-c(bound,geom$l-bound)
     }
-    zout<-(risem[bound[1]]-9):(risem[bound[2]]-9)
+    zout<-floor(risem[bound[1]]-9):(risem[bound[2]]-9)
   }else{
     stop('no value for "bound" is provided');
   }
   zlib<-dim(qqs)[2]
   lout<-length(zout)
-  exZ<- (-lout-zlib/2):(lout+zlib/2-1)
+  exZ<- (-zlib/2):(zlib/2-1)
   pad<-rep(0,lout)  
   qqm<-apply(qqs, c(2,3), FUN=mean)
   
   spq<-list(
-    A=splinefun(exZ,c(pad,qqm[,1],pad),method='natural'),
-    T=splinefun(exZ,c(pad,qqm[,2],pad),method='natural'),
-    G=splinefun(exZ,c(pad,qqm[,3],pad),method='natural'),
-    C=splinefun(exZ,c(pad,qqm[,4],pad),method='natural'))
+    A=splinefun(exZ,qqm[,1],method='natural'),
+    T=splinefun(exZ,qqm[,2],method='natural'),
+    G=splinefun(exZ,qqm[,3],method='natural'),
+    C=splinefun(exZ,qqm[,4],method='natural'))
+
   i1<-floor(risem[bound[1]:bound[2]]-risem[ref]+9)
   
-#  mz<-matrix(zout,nrow=length(risem),ncol=lout,byrow=TRUE)
-#  mr<-matrix(risem,nrow=length(risem),ncol=lout,byrow = FALSE)
-#  msp<-mz-mr
   pot<-rep(0,lout)
-  for(i in 1:dim(msp)[1]){
-    msp<-zout - risem[i]
-    pot<-pot+spq[[geom$nseq[i]]](msp)
+  for(i in 1:geom$l){
+    ind<-which(zout>(risem[i]-zlib/2)&zout<(risem[i]+zlib/2))
+    if(length(ind)>0){
+      pot[ind]<-pot[ind]+spq[[geom$nseq[i]]](zout[ind]-risem[i])
+    }
   }
-  elstatlist<-list(mpot=pot, risef=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref)
+  elstatlist<-list(mpot=pot, risem=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref)
   class(elstatlist)<-'elDNA1d'
   return (elstatlist)
 }
@@ -96,4 +95,5 @@ sseqspline1D.BP<-function(
   pspline=splinefun(zout,pot,method='natural')
   potbp<-pspline(risem[ind])
   return(cbind(bp,potbp))
+  ### potential profile values at the centre of the base pair
 }

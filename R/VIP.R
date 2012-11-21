@@ -27,7 +27,7 @@ VIP <-function#Fuction to calculate VIP-values for variables
     p<-ncol(resPLS$model[[names(resPLS$model)[2]]])
     VIP<-matrix(0, nrow = p, ncol = H)
      
-    cor2<-cor(resPLS$model[[names(resPLS$model)[1]]], scores(resPLS), use = "pairwise")^2
+    cor2<-cor(resPLS$model[[names(resPLS$model)[1]]], pls::scores(resPLS), use = "pairwise")^2
     cor2<-as.matrix(cor2, nrow = q)
      
     VIP[, 1]<-W[, 1]^2
