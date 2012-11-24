@@ -63,8 +63,10 @@ filename=NA #<< name of the file to save data in. Empty string or NA value means
 	zlib<-dim(qqs)[2]
 	lz<-max(risec)-min(risec)+zlib
 	pot<-array(0, dim=c(360,lz))
+  z<-rep((-zlib/2):(zlib/2-1),each=dim(qqs)[1])
+  phi<-rep(0:359,zlib)
 	for (i in 1:l){
-		q<-qqs[,,nseq[i]]
+	  q<-qqs[,,nseq[i]]
 		par<-twpar[i]
 		f<-twistf[i]
 		c<-twistc[i]
