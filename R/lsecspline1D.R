@@ -32,7 +32,7 @@ lseqspline1D<-function(
     }else if(length(bound)==1){
       bound<-c(bound,geom$l-bound)
     }
-    zout<-floor(risem[bound[1]]-9):(risem[bound[2]]-9)
+    zout<-floor(risem[bound[1]]-9):(risem[bound[2]]+9)
   }else{
     stop('no value for "bound" is provided');
   }
@@ -43,17 +43,33 @@ lseqspline1D<-function(
   
   spq<-.makeSplines1D()
 
+  sgz<-data.frame(pos=1:length(s),risem=risem,
+                  minZ=(risem-zlib/2),
+                  maxZ=(risem+zlib/2-1))
+  sgz$minZ[sgz$minZ<min(zout)]<-min(zout)
+  sgz$maxZ[sgz$maxZ>max(zout)]<-max(zout)
+  sgz$minI<-floor(sgz$minZ)-min(zout)+1
+  sgz$maxI<-ceiling(sgz$maxZ)-min(zout)+1  
+  
+  ind<-which(sgz$minZ<sgz$maxZ)
   i1<-floor(risem[bound[1]:bound[2]]-risem[ref]+9)
   
   pot<-rep(0,lout)
-  for(i in 1:geom$l){
-    ind<-which(zout>(risem[i]-zlib/2)&zout<(risem[i]+zlib/2))
-    if(length(ind)>0){
-      pot[ind]<-pot[ind]+spq[[geom$nseq[i]]](zout[ind]-risem[i])
-    }
+  for(i in ind){
+    indp<-sgz$minI[i]:sgz$maxI[i]
+    pot[indp]<-pot[indp]+spq[[geom$nseq[i]]](zout[indp]-sgz$risem[i])
   }
-  elstatlist<-list(mpot=pot, risem=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref)
+  elstatlist<-list(mpot=pot, risem=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref,zmap=sgz[ind,])
   class(elstatlist)<-'elDNA1d'
+  ##value<< list with eight components:
+  ##\item{mpot}{1D profile of electrostatic potential along Z axis of DNA;} 
+  ##\item{risem}{coordinate of the base pair geometrical center on Z axis of DNA;} 
+  ##\item{i1}{index of the base pair geometrical center nearest mesh point ;} 
+  ##\item{x}{Z coordinates;} 
+  ##\item{seq}{DNA sequence used to calculate profile;} 
+  ##\item{bound}{boundaries of the part of interest within the sequence;} 
+  ##\item{ref}{index of the base pair that suppose to be placed at the origin;} 
+  ##\item{zmap}{data frame of geometical properties of base pairs like index, coordinate of the center, part of profile influenced by its charges.} 
   return (elstatlist)
 }
 
