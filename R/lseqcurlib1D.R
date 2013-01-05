@@ -38,15 +38,31 @@ filename=NA #<< name of the file to save data in. Empty string or NA value means
 	mpot<-pot
 	mpot<-mpot[(risef[bound[1]]-8+zlib/2):(risef[bound[2]]+8+zlib/2)]
 	i1<-risef[bound[1]:bound[2]]-risef[ref]+9
+  zout<-floor(risem[bound[1]]-9):(risem[bound[2]]+9)
   x<-(risem[bound[1]]-8):(risem[bound[2]]+8)
 	risem<-risem[bound[1]:bound[2]]-risem[ref]
 	if(!is.na(filename)&!nchar(gsub('^ +','',gsub(' +$','',filename)))>0){
     filename<-gsub(' +','_',gsub('^ +','',gsub(' +$','',filename)))
     save(mpot, risef, i1, file=paste(filename,'.lseqcurlib_data.Rdata',sep=''))
   }
-
-	elstatlist<-list(mpot=mpot, risef=risem, i1=i1,x=x,seq=s,bound=bound,ref=ref)
+  sgz<-data.frame(pos=1:length(s),risem=risem,
+                  minZ=(risem-zlib/2),
+                  maxZ=(risem+zlib/2-1))
+  sgz$minZ[sgz$minZ<min(zout)]<-min(zout)
+  sgz$maxZ[sgz$maxZ>max(zout)]<-max(zout)
+  sgz$minI<-floor(sgz$minZ)-min(zout)+1
+  sgz$maxI<-ceiling(sgz$maxZ)-min(zout)+1  
+  
+	elstatlist<-list(mpot=mpot, risef=risem, i1=i1,x=x,seq=s,bound=bound,ref=ref,zmap=sgz[sgz$minZ<sgz$maxZ,])
   class(elstatlist)<-'elDNA1d'
-	return (elstatlist)
-### list containing a few electrostatic data: pot, mpot, risef, i1
+  ##value<< list with eight components:
+  ##\item{mpot}{1D profile of electrostatic potential along Z axis of DNA;} 
+  ##\item{risem}{coordinate of the base pair geometrical center on Z axis of DNA;} 
+  ##\item{i1}{index of the base pair geometrical center nearest mesh point ;} 
+  ##\item{x}{Z coordinates;} 
+  ##\item{seq}{DNA sequence used to calculate profile;} 
+  ##\item{bound}{boundaries of the part of interest within the sequence;} 
+  ##\item{ref}{index of the base pair that suppose to be placed at the origin;} 
+  ##\item{zmap}{data frame of geometical properties of base pairs like index, coordinate of the center, part of profile influenced by its charges.} 
+  return (elstatlist)
 }
