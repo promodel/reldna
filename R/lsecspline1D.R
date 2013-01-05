@@ -1,3 +1,18 @@
+.makeSplines1D<-function(
+  ### internal function to prepare spline function of the electrostatic profile for individual base pair type
+  ### =======================================================
+){
+  qqm<-apply(qqs, c(2,3), FUN=mean)
+  zlib<-dim(qqs)[2]
+  exZ<- (-zlib/2):(zlib/2-1)
+  spq<-list(
+    A=splinefun(exZ,qqm[,1],method='natural'),
+    T=splinefun(exZ,qqm[,2],method='natural'),
+    G=splinefun(exZ,qqm[,3],method='natural'),
+    C=splinefun(exZ,qqm[,4],method='natural'))
+  return(spq)
+}
+
 lseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for long sequences
   ### =======================================================
@@ -23,15 +38,10 @@ lseqspline1D<-function(
   }
   zlib<-dim(qqs)[2]
   lout<-length(zout)
-  exZ<- (-zlib/2):(zlib/2-1)
+#  exZ<- (-zlib/2):(zlib/2-1)
   pad<-rep(0,lout)  
-  qqm<-apply(qqs, c(2,3), FUN=mean)
   
-  spq<-list(
-    A=splinefun(exZ,qqm[,1],method='natural'),
-    T=splinefun(exZ,qqm[,2],method='natural'),
-    G=splinefun(exZ,qqm[,3],method='natural'),
-    C=splinefun(exZ,qqm[,4],method='natural'))
+  spq<-.makeSplines1D()
 
   i1<-floor(risem[bound[1]:bound[2]]-risem[ref]+9)
   
@@ -62,13 +72,7 @@ sseqspline1D<-function(
   lout<-length(zout)
   exZ<- (-lout-zlib/2):(lout+zlib/2-1)
   pad<-rep(0,lout)  
-  qqm<-apply(qqs, c(2,3), FUN=mean)
-
-  spq<-list(
-    A=splinefun(exZ,c(pad,qqm[,1],pad),method='natural'),
-    T=splinefun(exZ,c(pad,qqm[,2],pad),method='natural'),
-    G=splinefun(exZ,c(pad,qqm[,3],pad),method='natural'),
-    C=splinefun(exZ,c(pad,qqm[,4],pad),method='natural'))
+  spq<-.makeSplines1D()
   mz<-matrix(zout,nrow=length(risem),ncol=lout,byrow=TRUE)
   mr<-matrix(risem,nrow=length(risem),ncol=lout,byrow = FALSE)
   msp<-mz-mr
