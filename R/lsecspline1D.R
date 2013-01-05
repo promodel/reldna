@@ -1,3 +1,18 @@
+.makeSplines1D<-function(
+  ### internal function to prepare spline function of the electrostatic profile for individual base pair type
+  ### =======================================================
+){
+  qqm<-apply(qqs, c(2,3), FUN=mean)
+  zlib<-dim(qqs)[2]
+  exZ<- (-zlib/2):(zlib/2-1)
+  spq<-list(
+    A=splinefun(exZ,qqm[,1],method='natural'),
+    T=splinefun(exZ,qqm[,2],method='natural'),
+    G=splinefun(exZ,qqm[,3],method='natural'),
+    C=splinefun(exZ,qqm[,4],method='natural'))
+  return(spq)
+}
+
 lseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for long sequences
   ### =======================================================
@@ -17,33 +32,44 @@ lseqspline1D<-function(
     }else if(length(bound)==1){
       bound<-c(bound,geom$l-bound)
     }
-    zout<-floor(risem[bound[1]]-9):(risem[bound[2]]-9)
+    zout<-floor(risem[bound[1]]-9):(risem[bound[2]]+9)
   }else{
     stop('no value for "bound" is provided');
   }
   zlib<-dim(qqs)[2]
   lout<-length(zout)
-  exZ<- (-zlib/2):(zlib/2-1)
+#  exZ<- (-zlib/2):(zlib/2-1)
   pad<-rep(0,lout)  
-  qqm<-apply(qqs, c(2,3), FUN=mean)
   
-  spq<-list(
-    A=splinefun(exZ,qqm[,1],method='natural'),
-    T=splinefun(exZ,qqm[,2],method='natural'),
-    G=splinefun(exZ,qqm[,3],method='natural'),
-    C=splinefun(exZ,qqm[,4],method='natural'))
+  spq<-.makeSplines1D()
 
+  sgz<-data.frame(pos=1:length(s),risem=risem,
+                  minZ=(risem-zlib/2),
+                  maxZ=(risem+zlib/2-1))
+  sgz$minZ[sgz$minZ<min(zout)]<-min(zout)
+  sgz$maxZ[sgz$maxZ>max(zout)]<-max(zout)
+  sgz$minI<-floor(sgz$minZ)-min(zout)+1
+  sgz$maxI<-ceiling(sgz$maxZ)-min(zout)+1  
+  
+  ind<-which(sgz$minZ<sgz$maxZ)
   i1<-floor(risem[bound[1]:bound[2]]-risem[ref]+9)
   
   pot<-rep(0,lout)
-  for(i in 1:geom$l){
-    ind<-which(zout>(risem[i]-zlib/2)&zout<(risem[i]+zlib/2))
-    if(length(ind)>0){
-      pot[ind]<-pot[ind]+spq[[geom$nseq[i]]](zout[ind]-risem[i])
-    }
+  for(i in ind){
+    indp<-sgz$minI[i]:sgz$maxI[i]
+    pot[indp]<-pot[indp]+spq[[geom$nseq[i]]](zout[indp]-sgz$risem[i])
   }
-  elstatlist<-list(mpot=pot, risem=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref)
+  elstatlist<-list(mpot=pot, risem=risem, i1=i1,x=zout,seq=s,bound=bound,ref=ref,zmap=sgz[ind,])
   class(elstatlist)<-'elDNA1d'
+  ##value<< list with eight components:
+  ##\item{mpot}{1D profile of electrostatic potential along Z axis of DNA;} 
+  ##\item{risem}{coordinate of the base pair geometrical center on Z axis of DNA;} 
+  ##\item{i1}{index of the base pair geometrical center nearest mesh point ;} 
+  ##\item{x}{Z coordinates;} 
+  ##\item{seq}{DNA sequence used to calculate profile;} 
+  ##\item{bound}{boundaries of the part of interest within the sequence;} 
+  ##\item{ref}{index of the base pair that suppose to be placed at the origin;} 
+  ##\item{zmap}{data frame of geometical properties of base pairs like index, coordinate of the center, part of profile influenced by its charges.} 
   return (elstatlist)
 }
 
@@ -62,13 +88,7 @@ sseqspline1D<-function(
   lout<-length(zout)
   exZ<- (-lout-zlib/2):(lout+zlib/2-1)
   pad<-rep(0,lout)  
-  qqm<-apply(qqs, c(2,3), FUN=mean)
-
-  spq<-list(
-    A=splinefun(exZ,c(pad,qqm[,1],pad),method='natural'),
-    T=splinefun(exZ,c(pad,qqm[,2],pad),method='natural'),
-    G=splinefun(exZ,c(pad,qqm[,3],pad),method='natural'),
-    C=splinefun(exZ,c(pad,qqm[,4],pad),method='natural'))
+  spq<-.makeSplines1D()
   mz<-matrix(zout,nrow=length(risem),ncol=lout,byrow=TRUE)
   mr<-matrix(risem,nrow=length(risem),ncol=lout,byrow = FALSE)
   msp<-mz-mr

@@ -7,15 +7,15 @@
 \tabular{ll}{Package: \tab reldna\cr
 Type: \tab Package\cr
 Title: \tab R Electrostatics of DNA\cr
-Version: \tab 0.0-5\cr
-Date: \tab 2012-11-19\cr
+Version: \tab 0.0-7.20130105\cr
+Date: \tab 2013-01-05\cr
 Author: \tab Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin\cr
 Maintainer: \tab Evgenia Temlyakova <evgenia.teml@gmail.com>\cr
 License: \tab GPL (>= 2)\cr
-Copyright: \tab Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin 2012\cr
-Depends: \tab seqinr\cr
+Copyright: \tab Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin 2012-2013\cr
+Depends: \tab seqinr, pls\cr
 Suggests: \tab lattice, xtable\cr
-Imports: \tab car, pls\cr
+Imports: \tab car\cr
 LazyData: \tab true\cr}
 }
 \author{Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin}
