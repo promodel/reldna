@@ -25,14 +25,17 @@ dnaGeom<-function(
     }}
   
   geom<-array(0, dim=c(2,l))
-  phi<-cumsum(data$twist%*%di/180*pi)
-  risem<-cumsum(data$rise%*%di)
+  phi<-cumsum(c(0,data$twist%*%di/180*pi))
+  risem<-cumsum(c(0,data$rise%*%di))
   
   rm(data, geom, di)
   geom<-list(risem=risem,twist=phi,nseq=nseq,l=l)
   class(geom)<-'DNAgeom'
+  ##value<< object of class 'DNAgeom', list with four slots:
+  ##\item{risem}{coordinate of the base pair geometrical center on Z axis of DNA;} 
+  ##\item{twist}{that gives the orientation of the X axis of the base pair;} 
+  ##\item{nseq}{simple numerical encoding of a DNA sequence by \code{seqinr::s2n} ;} 
+  ##\item{l}{length of the sequence.} 
   return(geom)
-  ### object of class 'DNAgeom' with two slots: rise, which gives Z coordinate of the corresponding base pair, and 
-  ### twist, which gives orientation of the X axis of the base pair.
   ##references<< http://chem.rutgers.edu/~xiangjun/3DNA/images/bp_step_hel.gif
 }
