@@ -10,7 +10,7 @@ INSTALLATION
 The **reldna** library is pure  R code so it should work on any platform where R is installed.
 Installation process is really straightforward:
 
-1. Download [latest version](https://github.com/promodel/reldna/blob/master/distr/reldna_0.0-7.20130105.tar.gz) of the library
+1. Download [latest version](https://github.com/promodel/reldna/blob/master/distr/reldna_0.0-8.20130204.tar.gz) of the library
 2. Use standard R installation procedure
    * Chechk that all dependencies are installed in your system
    * Install library 
