@@ -6,10 +6,10 @@
   zlib<-dim(qqs)[2]
   exZ<- (-zlib/2):(zlib/2-1)
   spq<-list(
-    A=splinefun(exZ,qqm[,1],method='natural'),
-    T=splinefun(exZ,qqm[,2],method='natural'),
-    G=splinefun(exZ,qqm[,3],method='natural'),
-    C=splinefun(exZ,qqm[,4],method='natural'))
+    A=splinefun(exZ,qqm[,1],method='monoH.FC'),
+    T=splinefun(exZ,qqm[,2],method='monoH.FC'),
+    G=splinefun(exZ,qqm[,3],method='monoH.FC'),
+    C=splinefun(exZ,qqm[,4],method='monoH.FC'))
   return(spq)
 }
 
