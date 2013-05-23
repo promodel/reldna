@@ -77,7 +77,7 @@ lseqspline1D<-function(
 sseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for short sequences
   s, ##<< DNA sequence
-  ref, ##<< reference position 
+  ref=51, ##<< reference position 
   zout=-540:179 ##<< exact coordinates in which values of the potential will be calculated.
   #,filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
   #,name ##<< name of the library
