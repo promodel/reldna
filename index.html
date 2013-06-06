@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Reldna by promodel</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Reldna</h1>
+        <h2>DNA electrostatics in R</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/promodel/reldna/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/promodel/reldna/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/promodel/reldna" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="dna-electrostatics-in-r" class="anchor" href="#dna-electrostatics-in-r"><span class="octicon octicon-link"></span></a>DNA Electrostatics in R</h1>
+
+<p>Fast algorithm of calculation of DNA electrostatics was developed in 1999 by Anatoly Sorokin (<a href="https://github.com/lptolik" class="user-mention">@lptolik</a>) and Timur Dzhelyadin. Since then we have looked through regulatory elements of many genomes and show that electrostatical properties of regulatory DNA sites could explain a lot of features of DNA-protein recognition process.</p>
+
+<p>All analysis in that papers was done with Matlab, which is not free. Active development of R and Bioconductor project especially make us to migrate our code to R/Bioconductor, so it will be much more accessible to bioinformatics community.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
+
+<p>The <strong>reldna</strong> library is pure  R code so it should work on any platform where R is installed.
+Installation process is really straightforward:</p>
+
+<ol>
+<li>Download <a href="https://github.com/promodel/reldna/blob/master/distr/reldna_0.0-8.20130204.tar.gz">latest version</a> of the library</li>
+<li>Use standard R installation procedure
+
+<ul>
+<li>Chechk that all dependencies are installed in your system</li>
+<li>Install library 
+<code>
+R CMD INSTALL reldna_THE_VERSION_YOU_VE_DOWNLOADED.tar.gz
+</code>
+News and results of sequence analysis with <strong>reldna</strong> library are also available at the Laboratory of Cell Genome Functioning Mechanisms <a href="http://promodel.icb.psn.ru/publab/?q=en/node/25">site</a>.</li>
+</ul>
+</li>
+</ol><h2>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>REFERENCES</h2>
+
+<p>There is long list of publications about electrostatic properties of regulatory DNA and bacterial promoters in particular, please cite some of them if you find library useful:</p>
+
+<ol>
+<li>KAMZOLOVA, SG; BESKARAVAINY, PM; SOROKIN, AA. Electrostatic Properties of Promoter and Nonpromoter Sites in T7 Bacteriophage Genome. JOURNAL OF BIOMOLECULAR STRUCTURE &amp; DYNAMICS, 2009,  26:6 p. 881-882.</li>
+<li>Kamzolova, S. G., Sorokin, A. A., Osipov, A. A., Beskaravainy, P. M. Electrostatic Map of Bacteriophage T7 Genome. Comparative Analysis of Electrostatic Properties of sigma(70)-Specific T7 DNA Promoters Recognized by RNA-Polymerase of Escherichia coli. Biofizika, 2009, 54:6 p. 975-983.</li>
+<li>Sorokin, A.A., et al., Analysis of the distribution of the nucleotide sequence and electrostatic potential of the Escherichia coli genome. Biofizika, 2007. 52(2): p. 223-227.</li>
+<li>Sorokin, A.A., et al., Electrostatic properties of promoters recognized by E. coli RNA polymerase Esigma-70. Journal of bioinformatics and computational biology, 2006. 4(2): p. 455-67.</li>
+<li>Sorokin, A.A., et al. Electrostatic Map of E. coli Genome DNA. Specific Features of Electrostatic Potential of Promoter and Nonpromoter Regions. in The 14th Albany Conversation. 2005. University of Albany, Albany, NY.</li>
+<li>Sorokin, A.A., et al. Oligonucleotide Analysis of E. coli Promoters Recognized by σ70-RNA Polymerase. in The 14th Albany Conversation. 2005. University of Albany, Albany, NY.</li>
+<li>Kamzolova, S.G., et al., [Some principles in the organization of σ70-specific promoters on the E. coli genome on the basis of electrostatic patterns of promoter DNA]. Biofizika, 2005. 50(3): p. 444-9.</li>
+<li>Kamzolova, S.G., et al., Electrostatic potentials of E.coli genome DNA. J Biomol Struct Dyn, 2005. 23(3): p. 341-5.</li>
+<li>Kamzolova, S.G., et al., Comparative analysis of electrostatic patterns for promoter and non-promoter DNA in E. coli, in Bioinformatics of Genome Regulation And Structure II, N. Kolchanov, et al., Editors. 2005, Springer. p. 67-74.</li>
+<li>Sorokin, A.A., et al. Electrostatic Properties of Promoter DNA. Approach to Classification Analysis. in 13th Albany Conversation. 2003. University of Albany, Albany, NY.</li>
+<li>Kamzolova, S.G., et al. Specific Features of Electrostatic Potential of E.coli Ribosomal Promoters. in 13th Albany Conversation. 2003. University of Albany, Albany, NY.</li>
+<li>Sorokin, A.A., et al. The quest for new forms of promoter determinants. Relationship of promoter nucleotide sequences to their electrostatic potential distribution. in 12th Albany Conversation. 2001. University of Albany, Albany, NY.</li>
+<li>Kamzolova, S.G., et al., RNA polymerase--promoter recognition. Specific features of electrostatic potential of "early" T4 phage DNA promoters. J Biomol Struct Dyn, 2000. 18(3): p. 325-34.</li>
+<li>Polozov, R.V., et al., Electrostatic potentials of DNA. Comparative analysis of promoter and nonpromoter nucleotide sequences. J Biomol Struct Dyn, 1999. 16(6): p. 1135-43.</li>
+</ol>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-41525829-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
