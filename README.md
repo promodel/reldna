@@ -1,7 +1,7 @@
 DNA Electrostatics in R
 ============================================================
 
-Fast algorithm of calculation of DNA electrostatics was developed in 1999. Since then we have looked through regulatory elements of many genomes and show that electrostatical properties of regulatory DNA sites could explain a lot of features of DNA-protein recognition process.
+Fast algorithm of calculation of DNA electrostatics was developed in [our laboratory](http://promodel.icb.psn.ru/publab/?q=en/node/5) in 1999. Since then we have looked through regulatory elements of many genomes and show that electrostatical properties of regulatory DNA sites could explain a lot of features of DNA-protein recognition process.
 
 All analysis in that papers was done with Matlab, which is not free. Active development of R and Bioconductor project especially make us to migrate our code to R/Bioconductor, so it will be much more accessible to bioinformatics community.
 
