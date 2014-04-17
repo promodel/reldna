@@ -1,5 +1,6 @@
 \name{reldna-package}
 \alias{reldna-package}
+\alias{reldna}
 \docType{package}
 \title{R Electrostatics of DNA}
 \description{Package to calculate 1D electrostatic profile of arbitrary DNA sequence}
@@ -7,8 +8,8 @@
 \tabular{ll}{Package: \tab reldna\cr
 Type: \tab Package\cr
 Title: \tab R Electrostatics of DNA\cr
-Version: \tab 0.0-7.20130105\cr
-Date: \tab 2013-01-05\cr
+Version: \tab 0.2-10.20140417\cr
+Date: \tab 2014-04-17\cr
 Author: \tab Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin\cr
 Maintainer: \tab Evgenia Temlyakova <evgenia.teml@gmail.com>\cr
 License: \tab GPL (>= 2)\cr

@@ -2,7 +2,7 @@
 \alias{sseqspline1D}
 \title{sseqspline1D}
 \description{spline function to calulate the profile of electrostatics for short sequences}
-\usage{sseqspline1D(s, ref, zout = -540:179)}
+\usage{sseqspline1D(s, ref = 51, zout = -540:179)}
 \arguments{
   \item{s}{DNA sequence}
   \item{ref}{reference position}

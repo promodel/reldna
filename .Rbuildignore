@@ -2,3 +2,10 @@
 ^\.Rproj\.user$
 ^distr
 ^.*\.md
+^.*\.DS_Store
+^.*\.RData
+^.*\.Rhistory
+^.*\.gitignore
+^.*\.Rproj.user
+^.*\.git
+

@@ -9,14 +9,15 @@ updateX3DNAparam<-function(
   #read file
   fl<-readLines(ifile,warn=FALSE)
   #find lines to update
-  ind<-grep('^[ACGT]',fl)
+  ind<-grep('^[acgtACGT]',fl)
   iRise<-regexpr('Rise',fl[ind[1]-1])
   iTw<-regexpr('Twist',fl[ind[1]-1])-1
+  fl[ind]<-toupper(fl[ind])
   prev<-substr(fl[ind[1]],1,1)
   ind<-ind[-1]
   for(i in ind){
     cur<-substr(fl[i],1,1)
-    d<-subset(data,dilet==paste(prev,cur,sep=''))
+    d<-subset(data,dilet==toupper(paste(prev,cur,sep='')))
     substr(fl[i],iRise,iRise+5)<-sprintf("%5.3f ",d$rise)
     substr(fl[i],iTw,iTw+5)<-sprintf("%5.3f ",d$twist)
     prev<-cur
