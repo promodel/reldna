@@ -1,5 +1,6 @@
 lseqcurlib1D <-function(
-### main function to calculate electrostatic profile of DNA
+### DEPRECATED! SHOULD NOT BE USED
+### function to calculate electrostatic profile of DNA
 s, ##<< DNA sequence
 bound, ##<< define a fragment of interest
 width=1, ##<< smoothing window width

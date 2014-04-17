@@ -74,10 +74,37 @@ lseqspline1D<-function(
 }
 
 
+lseqspline1D.BP<-function(
+  ### spline function to calulate the profile of electrostatics for long 
+  ### sequences at centres of base pairs
+  ### =======================================================
+  s, ##<< DNA sequence
+  bound, ##<< define a fragment of interest
+  width=1, ##<< smoothing window width
+  ref ##<< reference position 
+  #,filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
+  #,name ##<< name of the library
+){
+  p<-lseqspline1D(s=s,bound=bound,width=width,ref=ref)
+  sp<-splinefun(p$x,p$mpot,method='monoH.FC')
+  bpot<-sp(p$risem[bound[1]:bound[2]])
+  elstatlist<-list(mpot=bpot, risem=p$risem, x=p$risem[bound[1]:bound[2]], seq=s, bound=bound, ref=ref)
+  class(elstatlist)<-'elDNA1d.BP'
+  ##value<< list with eight components:
+  ##\item{mpot}{1D profile of electrostatic potential along Z axis of DNA;} 
+  ##\item{risem}{coordinate of the base pair geometrical center on Z axis of DNA;} 
+  ##\item{x}{Z coordinates;} 
+  ##\item{seq}{DNA sequence used to calculate profile;} 
+  ##\item{bound}{boundaries of the part of interest within the sequence;} 
+  ##\item{ref}{index of the base pair that suppose to be placed at the origin;} 
+  return (elstatlist)
+}
+
+
 sseqspline1D<-function(
   ### spline function to calulate the profile of electrostatics for short sequences
   s, ##<< DNA sequence
-  ref, ##<< reference position 
+  ref=51, ##<< reference position 
   zout=-540:179 ##<< exact coordinates in which values of the potential will be calculated.
   #,filename=NA #<< name of the file to save data in. Empty string or NA value means file would not be saved
   #,name ##<< name of the library

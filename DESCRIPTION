@@ -1,8 +1,8 @@
 Package: reldna
 Type: Package
 Title: R Electrostatics of DNA 
-Version: 0.0-8.20130204
-Date: 2013-02-04
+Version: 0.2-10.20140417
+Date: 2014-04-17
 Author: Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin
 Maintainer: Evgenia Temlyakova <evgenia.teml@gmail.com>
 Description: Package to calculate 1D electrostatic profile of arbitrary DNA sequence
