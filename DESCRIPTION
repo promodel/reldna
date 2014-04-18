@@ -1,7 +1,7 @@
 Package: reldna
 Type: Package
 Title: R Electrostatics of DNA 
-Version: 0.2-10.20140417
+Version: 0.2-11.20140418
 Date: 2014-04-17
 Author: Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin
 Maintainer: Evgenia Temlyakova <evgenia.teml@gmail.com>
