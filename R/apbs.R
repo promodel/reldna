@@ -23,7 +23,7 @@ makeMultivalueCyllinder<-function(
        }
     }
     
-    write.table(points,file=ofile,sep=',',,row.name=FALSE,col.name=FALSE)
+    write.table(points,file=ofile,sep=',',,row.names=FALSE,col.names=FALSE)
     
 }
 
