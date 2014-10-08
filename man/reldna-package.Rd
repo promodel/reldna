@@ -8,8 +8,8 @@
 \tabular{ll}{Package: \tab reldna\cr
 Type: \tab Package\cr
 Title: \tab R Electrostatics of DNA\cr
-Version: \tab 0.2-10.20140417\cr
-Date: \tab 2014-04-17\cr
+Version: \tab 0.3-11.20141008\cr
+Date: \tab 2014-10-08\cr
 Author: \tab Anatoly Sorokin, Evgenia Temlyakova, Timur Dzhelyadin\cr
 Maintainer: \tab Evgenia Temlyakova <evgenia.teml@gmail.com>\cr
 License: \tab GPL (>= 2)\cr

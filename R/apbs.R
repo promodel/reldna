@@ -5,19 +5,24 @@ makeMultivalueCyllinder<-function(
   ### with APBS data as follow:
   ###      multivalue test.csv result.dx test.surf.out
   ### and test.surf.out could be analysed with makePhi2D function.
-  zMin,##<< Position of the first circule of cyllinder
-  zMax,##<< Position of the last circule of cyllinder
+  ### all data for calculation could be get from APBS in file
+  xC=0,##<< Position of the  cyllinder center (first number in fgcent)
+  yC=0,##<< Position of the cyllinder center (second number in fgcent)
+  zC=0,##<< Position of the cyllinder center (last number in fgcent)
+  zLen,##<< Length of the cyllinder (last number in fglen)
   radius=15,##<< Radius of the cyllinder
   ofile##<< path to file to write
 ){
+   zMin<-zC-zLen*0.5
+   zMax<-zC+zLen*0.5
    z<-floor(zMin):ceiling(zMax)
    a<-pi*(0:359)/180
    points<-matrix(nrow=length(z)*length(a),ncol=3)
    k<-1
    for (i in z) {
       for (j in a) {
-         points[k,1]<-radius*cos(j)
-         points[k,2]<-radius*sin(j)
+         points[k,1]<-radius*cos(j)+xC
+         points[k,2]<-radius*sin(j)+yC
          points[k,3]<-i
          k<-k+1
        }
@@ -30,10 +35,15 @@ makeMultivalueCyllinder<-function(
 makePhi2D<-function(
   ### Function to convert results of APBS multivalue function into
   ### 2D matrix for further analysis.
-  file##<< input file, result of multivalue invocation.
+  file,##<< input file, result of multivalue invocation.
+  xC=0,##<< Position of the  cyllinder center (first number in fgcent)
+  yC=0,##<< Position of the cyllinder center (second number in fgcent)
+  zC=0##<< Position of the cyllinder center (last number in fgcent)
 ){
    pot<-read.table(file,header=FALSE,sep=',')
    names(pot)<-c('X','Y','Z','phi')
+   pot$X<-pot$X-xC
+   pot$Y<-pot$Y-yC
    pot$alpha<-atan2(pot$X,pot$Y)
    pot$alphaG<-pot$alpha*180/pi
    pot$alphaG<-round(pot$alpha*180/pi)
@@ -45,3 +55,67 @@ makePhi2D<-function(
    ##value<< matrix with angle in rows and Z in columns
    return(phi)
 }
+
+
+#This function creates a color scale for use with e.g. the image()
+#function. Input parameters should be consistent with those
+#used in the corresponding image plot. The "horiz" argument
+#defines whether the scale is horizonal(=TRUE) or vertical(=FALSE).
+#Depending on the orientation, x- or y-limits may be defined that
+#are different from the z-limits and will reduce the range of
+#colors displayed.
+#Created by Pretty R at inside-R.org
+ 
+.image.scale <- function(z, zlim, col = heat.colors(12),
+breaks, horiz=TRUE, ylim=NULL, xlim=NULL, ...){
+ if(!missing(breaks)){
+  if(length(breaks) != (length(col)+1)){stop("must have one more break than colour")}
+ }
+ if(missing(breaks) & !missing(zlim)){
+  breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1)) 
+ }
+ if(missing(breaks) & missing(zlim)){
+  zlim <- range(z, na.rm=TRUE)
+  zlim[2] <- zlim[2]+c(zlim[2]-zlim[1])*(1E-3)#adds a bit to the range in both directions
+  zlim[1] <- zlim[1]-c(zlim[2]-zlim[1])*(1E-3)
+  breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1))
+ }
+ poly <- vector(mode="list", length(col))
+ for(i in seq(poly)){
+  poly[[i]] <- c(breaks[i], breaks[i+1], breaks[i+1], breaks[i])
+ }
+ xaxt <- ifelse(horiz, "s", "n")
+ yaxt <- ifelse(horiz, "n", "s")
+ if(horiz){YLIM<-c(0,1); XLIM<-range(breaks)}
+ if(!horiz){YLIM<-range(breaks); XLIM<-c(0,1)}
+ if(missing(xlim)) xlim=XLIM
+ if(missing(ylim)) ylim=YLIM
+ plot(1,1,t="n",ylim=ylim, xlim=xlim, xaxt=xaxt, yaxt=yaxt, xaxs="i", yaxs="i", ...)  
+ for(i in seq(poly)){
+  if(horiz){
+   polygon(poly[[i]], c(0,0,1,1), col=col[i], border=NA)
+  }
+  if(!horiz){
+   polygon(c(0,0,1,1), poly[[i]], col=col[i], border=NA)
+  }
+ }
+}
+
+plotPotential2D<-function(x,y,p,nbreaks=100, 
+     palette=colorRampPalette(c("black", "red", "yellow"), space="rgb")){
+ breaks <- seq(min(p), max(p),length.out=nbreaks)
+ layout(matrix(c(1,2,3,0,4,0), nrow=1, ncol=2), widths=c(4,1), heights=c(4))
+ layout.show(4)
+ par(mar=c(1,1,1,1))
+ image(x,y,p,col=palette(length(breaks)-1), breaks=breaks)
+ par(mar=c(3,1,1,1))
+ image.scale(p, col=palette(length(breaks)-1), breaks=breaks, horiz=FALSE)
+ box()
+}
+
+getCoeff<-function(){
+  ### Function return the average coefficient to convert RelDNA potential values to 
+  ### the average value of APBS potential.
+return(24.88146)
+}
+
