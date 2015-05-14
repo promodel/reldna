@@ -25,20 +25,31 @@ updateX3DNAparam<-function(
   writeLines(text=fl,con=ofile)
 }
 
+getOligos<-function(
+  ### Function to calculate geometry of the DNA double helix.   
+  s,##<< sequence of the DNA span to be build
+  len=2##<< length of the oligonucleotide
+){
+  if (!require(seqinr)) {
+    stop('Required library "seqinr" is not installed.')
+  }
+  s <- tolower(gsub('\\s', '', s,perl = TRUE))
+  l <- getLength(s)
+  nseq <- s2n(s2c(s), levels = c("a", "t", "g", "c"), base4 = FALSE)
+  istarts <- seq(from = 1, to = l - len + 1, by = 1)
+  oligos <- s2c(s)[istarts]
+  if (len > 1) {
+    for (i in 2:len) {
+      oligos <- paste(oligos, s2c(s)[istarts + i - 1], sep = "")
+    }
+  }
+  return(oligos)
+}
 dnaGeom<-function(
   ### Function to calculate geometry of the DNA double helix.   
   s##<< sequence of the DNA span to be build
   ){
-  if(!require(seqinr)){
-    stop('Required library "seqinr" is not installed.')
-  }
-  s<-tolower(gsub('\\s', '', s,perl=TRUE))
-  l<-getLength(s)
-  nseq<-s2n(s2c(s), levels=c("a", "t", "g", "c"), base4=FALSE)
-  istarts <- seq(from = 1, to = l-1, by = 1)
-  oligos <- s2c(s)[istarts]
-  oligos <- paste(oligos, s2c(s)[istarts + 1], sep = "")
-
+  oligos<-getOligos(s)
   #  load('rise_twist.Rdata')
   #	data(rise_twist,qqs,w)
   data<-rise_twist
