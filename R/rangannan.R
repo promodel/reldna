@@ -9,17 +9,17 @@ freeG<-function(
   if (!require(zoo)) {
     stop('Required library "zoo" is not installed.')
   }
+  oligos<-getOligos(s)
+  l<-length(oligos)
   if(length(bound)>2){
     warning(paste('Length of "bound" is',length(bound),'when 2 is expected. First two values of bound are used.'))
     bound<-bound[1:2]
   }else if(length(bound)==1){
     bound<-c(bound,l-bound)
   }
-  oligos<-getOligos(s)
   data<-rangannan
   oligos.levels<-tolower(data$Step)
   din<-factor(oligos, levels = oligos.levels)
-  l<-length(oligos)
   di<-array(0, dim=c(16, l))
   for(m in 1:l){
     di[din[m],m]<-1
