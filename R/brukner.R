@@ -10,16 +10,22 @@ bendability<-function(
   if (!require(zoo)) {
     stop('Required library "zoo" is not installed.')
   }
-  
+  if(length(bound)>2){
+    warning(paste('Length of "bound" is',length(bound),'when 2 is expected. First two values of bound are used.'))
+    bound<-bound[1:2]
+  }else if(length(bound)==1){
+    bound<-c(bound,l-bound)
+  }
   oligos<-getOligos(s,3)
+  l<-length(oligos)
   data<-brukner
   oligos.levels<-tolower(data$Step)
   trin<-factor(oligos, levels = oligos.levels)
-  tri<-array(0, dim=c(64, l-1))
-  for(m in 1:l-1){
+  tri<-array(0, dim=c(64, l))
+  for(m in 1:l){
     tri[trin[m],m]<-1
   }
-  bend<-rollsum(t(data$lnA%*%tri),4)
-  return(bend)
+  bend<-rollsum(t(data$lnA%*%tri),4,align = 'left')
+  return(bend[bound[1]:bound[2]])
 }
 
