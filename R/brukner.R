@@ -10,14 +10,14 @@ bendability<-function(
   if (!require(zoo)) {
     stop('Required library "zoo" is not installed.')
   }
+  oligos<-getOligos(s,3)
+  l<-length(oligos)
   if(length(bound)>2){
     warning(paste('Length of "bound" is',length(bound),'when 2 is expected. First two values of bound are used.'))
     bound<-bound[1:2]
   }else if(length(bound)==1){
     bound<-c(bound,l-bound)
   }
-  oligos<-getOligos(s,3)
-  l<-length(oligos)
   data<-brukner
   oligos.levels<-tolower(data$Step)
   trin<-factor(oligos, levels = oligos.levels)
